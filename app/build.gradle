@@ -1,0 +1,138 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-android-extensions'
+    id 'kotlin-kapt'
+}
+
+android {
+    compileSdkVersion 30
+    buildToolsVersion "30.0.2"
+
+    defaultConfig {
+        applicationId "ru.vyakhirev.koshelektestwork"
+        minSdkVersion 21
+        targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables.useSupportLibrary = true
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+}
+
+def room_version = '2.2.5'
+def dagger_version = '2.29.1'
+def rxJavaVersion = '2.1.1'
+def glide_version='4.11.0'
+def material_version='1.2.1'
+def retrofit_version = '2.9.0'
+def okHttp_version = '4.8.1'
+def gsonVersion = '2.8.4'
+def retrofitVersion = '2.6.1'
+def okhttpVersion = '4.2.1'
+def mockito_version='2.18.3'
+def espresso_version='3.2.0'
+def robolectrick_version='4.4'
+def multidex_version = "2.0.1"
+def cicerone_version="6.1"
+
+
+dependencies {
+    //Was by default
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.2'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.1'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.1'
+    testImplementation 'junit:junit:4.13'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+
+    //Cicerone
+    implementation("com.github.terrakok:cicerone:$cicerone_version")
+    //Material lib
+    implementation "com.google.android.material:material:$material_version"
+
+    //MultiDex
+    implementation "androidx.multidex:multidex:$multidex_version"
+    //PhotoView to zoom big image
+//    implementation "com.github.chrisbanes:PhotoView:$photoView_version"
+
+    //    Dagger2
+    implementation "com.google.dagger:dagger:$dagger_version"
+    implementation "com.google.dagger:dagger-android:$dagger_version"
+    implementation "com.google.dagger:dagger-android-support:$dagger_version"
+    kapt "com.google.dagger:dagger-compiler:$dagger_version"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
+    kaptTest "com.google.dagger:dagger-compiler:$dagger_version"
+    kapt "com.google.dagger:dagger-android-processor:$dagger_version"
+
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
+
+    //OkHttpLoggingInterceptor
+    implementation "com.squareup.okhttp3:logging-interceptor:$okHttp_version"
+
+    //Gson
+    implementation "com.google.code.gson:gson:$gsonVersion"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+
+
+    //      Room
+//    implementation "androidx.room:room-runtime:$room_version"
+//    kapt "androidx.room:room-compiler:$room_version"
+
+    //      RxJava
+    implementation "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+    implementation "io.reactivex.rxjava2:rxandroid:$rxJavaVersion"
+    implementation "androidx.room:room-rxjava2:$room_version"
+    implementation 'android.arch.persistence.room:rxjava2:2.1.1'
+
+    //Glide
+    implementation "com.github.bumptech.glide:glide:$glide_version"
+    kapt "com.github.bumptech.glide:compiler:$glide_version"
+
+    //Test section
+    //////////////////////////////////
+    def fragment_version = "1.2.5"
+    // ...
+    debugImplementation "androidx.fragment:fragment-testing:$fragment_version"
+
+    implementation "com.squareup.okhttp3:mockwebserver:$okhttpVersion"
+    kaptAndroidTest "com.google.dagger:dagger-compiler:$dagger_version"
+
+    // Espresso dependencies
+    androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-contrib:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-intents:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-accessibility:$espresso_version"
+    androidTestImplementation "androidx.test.espresso:espresso-web:$espresso_version"
+    androidTestImplementation "androidx.test.espresso.idling:idling-concurrent:$espresso_version"
+
+    //Robolectric
+    testImplementation "org.robolectric:robolectric:$robolectrick_version"
+
+    //Mockito
+    testImplementation "org.mockito:mockito-core:$mockito_version"
+}

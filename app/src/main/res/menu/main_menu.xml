@@ -1,0 +1,25 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="ru.vyakhirev.flickrtool.MainActivity">
+
+    <item
+        android:id="@+id/action_bid"
+        android:enabled="true"
+        android:icon="@drawable/ic_bid"
+        android:title="@string/info_bid" />
+
+    <item
+        android:id="@+id/action_ask"
+        android:icon="@drawable/ic_ask"
+        android:orderInCategory="100"
+        android:title="Info: Ask"
+        />
+
+    <item
+        android:id="@+id/action_details"
+        android:icon="@drawable/ic_details"
+        android:orderInCategory="100"
+        android:title="@string/details"
+        />
+</menu>

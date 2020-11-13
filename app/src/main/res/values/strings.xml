@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">KoshelekTestWork</string>
+    <string name="info_bid">Info: Bid</string>
+    <string name="details">Details</string>
+</resources>

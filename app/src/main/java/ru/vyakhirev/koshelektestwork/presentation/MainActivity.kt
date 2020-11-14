@@ -28,7 +28,6 @@ class MainActivity : AppCompatActivity() {
 
                 R.id.action_ask -> {
                     openFragment(InfoAskFragment())
-//                        navigator.applyCommands(Forward())
                     return@OnNavigationItemSelectedListener true
                 }
 

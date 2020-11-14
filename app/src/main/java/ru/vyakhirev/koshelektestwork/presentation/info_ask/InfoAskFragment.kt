@@ -9,10 +9,19 @@ import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.navin.flintstones.rxwebsocket.RxWebsocket
+import com.navin.flintstones.rxwebsocket.RxWebsocket.Open
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.internal.functions.Functions.emptyConsumer
+import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.info_ask_fragment.*
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
 import ru.vyakhirev.koshelektestwork.R
 import ru.vyakhirev.koshelektestwork.data.Currency
+import ru.vyakhirev.koshelektestwork.data.model.DepthStreamModel
 import ru.vyakhirev.koshelektestwork.data.remote.ApiBinance
+import ru.vyakhirev.koshelektestwork.data.remote.WebSocketConverterFactory
 import ru.vyakhirev.koshelektestwork.di.DaggerAppComponent
 import ru.vyakhirev.koshelektestwork.presentation.info_ask.adapter.CurrencyAdapter
 import javax.inject.Inject
@@ -27,7 +36,8 @@ class InfoAskFragment : Fragment() {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-    
+
+
 
     private lateinit var viewModel: InfoAskViewModel
     private lateinit var adapterRv:CurrencyAdapter
@@ -57,17 +67,26 @@ class InfoAskFragment : Fragment() {
 
         setupRecyclerView()
 
-        viewModel.getOrdersBook("BTCUSDT")
+         viewModel.getOrdersBook("BTCUSDT")
+
+        viewModel.getWsOrders()
+
 
         viewModel.orders.observe(
             viewLifecycleOwner,
             {
-                Log.d("lld",it.toString())
+                Log.d("lld", it.toString())
                 adapterRv.update(it)
+//                Thread.sleep(3000)
+//                viewModel.getOrdersBook("BTCUSDT")
             })
 
 
     }
+
+
+
+
 
     private fun setupCurrencySpoinner() {
         currencyChoserSpinner.setSelection(0)
@@ -105,7 +124,7 @@ class InfoAskFragment : Fragment() {
         adapterRv =
             CurrencyAdapter(
                 requireContext(),
-               listOf()
+                listOf()
             )
         currencyAskBidRV.layoutManager = LinearLayoutManager(context)
         currencyAskBidRV.adapter = adapterRv

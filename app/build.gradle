@@ -49,7 +49,7 @@ def mockito_version='2.18.3'
 def espresso_version='3.2.0'
 def robolectrick_version='4.4'
 def multidex_version = "2.0.1"
-def cicerone_version="6.1"
+def rxWebSoket_version="1.04"
 
 
 dependencies {
@@ -67,8 +67,9 @@ dependencies {
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
 
-    //Cicerone
-    implementation("com.github.terrakok:cicerone:$cicerone_version")
+    //WebSocket
+    implementation "com.github.navinilavarasan:rxWebSocket:$rxWebSoket_version"
+
     //Material lib
     implementation "com.google.android.material:material:$material_version"
 

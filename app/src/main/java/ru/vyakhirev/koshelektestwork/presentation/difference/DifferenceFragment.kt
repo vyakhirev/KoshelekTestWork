@@ -60,7 +60,7 @@ class DifferenceFragment : Fragment() {
                 diffModel.bidPricePrevios=it.bids[0][0]
                 diffModel.bidPriceNow=it.bids[1][0]
                 diffModel.diffBid=diffModel.bidPriceNow-diffModel.bidPricePrevios
-                diffModel.askPricePrevios=it.asks[0][1]
+                diffModel.askPricePrevios=it.asks[0][0]
                 diffModel.askPriceNow=it.asks[1][0]
                 diffModel.diffAsk=diffModel.askPriceNow-diffModel.askPricePrevios
 //                it.bids {

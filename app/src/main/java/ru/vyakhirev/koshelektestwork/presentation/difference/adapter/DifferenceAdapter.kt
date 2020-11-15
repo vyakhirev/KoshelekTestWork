@@ -14,7 +14,7 @@ class DifferenceAdapter(
 ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return AskViewHolder(
+        return DifferenceViewHolder(
             LayoutInflater.from(context).inflate(R.layout.difference_item, parent, false)
         )
     }

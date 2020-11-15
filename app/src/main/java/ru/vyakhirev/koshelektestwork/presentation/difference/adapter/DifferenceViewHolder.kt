@@ -3,7 +3,6 @@ package ru.vyakhirev.koshelektestwork.presentation.difference.adapter
 import android.graphics.Color
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.currency_item.view.*
 import kotlinx.android.synthetic.main.difference_item.view.*
 import ru.vyakhirev.koshelektestwork.data.DiffModel
 
@@ -18,21 +17,19 @@ class DifferenceViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         itemView.bidPriceTV.text = item.bidPriceNow.format(6).toString()
         itemView.diffBidTV.text = item.diffBid.format(6).toString()
         if (item.diffBid < 0)
-            itemView.priceTV.setTextColor(
-                if (item.diffBid < 0)
-                    Color.parseColor(Red)
-                else
-                    Color.parseColor(Green)
+            itemView.diffBidTV.setTextColor(
+                Color.parseColor(Red)
             )
+        else itemView.diffBidTV.setTextColor(Color.parseColor(Green))
+
 
         itemView.askPriceTV.text = item.askPriceNow.format(6).toString()
-        itemView.diffAskTV.text = item.diffBid.format(6).toString()
+        itemView.diffAskTV.text = item.diffAsk.format(6).toString()
         if (item.diffAsk < 0)
-            itemView.priceTV.setTextColor(
-                if (item.diffBid < 0)
-                    Color.parseColor(Red)
-                else
-                    Color.parseColor(Green)
+            itemView.diffAskTV.setTextColor(
+                Color.parseColor(Red)
             )
+        else itemView.diffAskTV.setTextColor(Color.parseColor(Green))
+
     }
 }

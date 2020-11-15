@@ -7,6 +7,7 @@ import ru.vyakhirev.koshelektestwork.data.remote.WsBinance
 import ru.vyakhirev.koshelektestwork.di.api.ApiModule
 import ru.vyakhirev.koshelektestwork.di.WebSocket.WsBinanceModule
 import ru.vyakhirev.koshelektestwork.di.viewmodel.ViewModelModule
+import ru.vyakhirev.koshelektestwork.presentation.difference.DifferenceFragment
 import ru.vyakhirev.koshelektestwork.presentation.info_ask.InfoAskFragment
 import ru.vyakhirev.koshelektestwork.presentation.info_bid.InfoBidFragment
 import javax.inject.Singleton
@@ -34,4 +35,5 @@ interface AppComponent {
 
     fun inject(infoAskFragment: InfoAskFragment)
     fun inject(infoBidFragment: InfoBidFragment)
+    fun inject(differenceFragment: DifferenceFragment)
 }

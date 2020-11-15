@@ -91,10 +91,14 @@ class InfoAskViewModel @Inject constructor(
         )
     }
 
+    fun wsDisconnect(){
+        wSocket.onDisconnect()
+    }
+
     override fun onCleared() {
         disposable.clear()
         Log.d("OnCleared", "Invoked!")
-        wSocket.onDisconnect()
+        wsDisconnect()
     }
 
 

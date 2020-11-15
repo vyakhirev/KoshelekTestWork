@@ -41,7 +41,7 @@ class InfoAskFragment : Fragment() {
 
         DaggerAppComponent.create().inject(this)
 
-        setupCurrencySpoinner()
+        setupCurrencySpinner()
 
         viewModel = ViewModelProvider(
             this,
@@ -52,7 +52,7 @@ class InfoAskFragment : Fragment() {
 
 //        viewModel.getOrdersBook("BTCUSDT")
 
-        viewModel.getWsOrders(Currency.wsBtcUsdt)
+//        viewModel.getWsOrders(Currency.wsBtcUsdt)
 
         viewModel.wsStreamData.observe(
             viewLifecycleOwner,
@@ -93,7 +93,7 @@ class InfoAskFragment : Fragment() {
 //        )
     }
 
-    private fun setupCurrencySpoinner() {
+    private fun setupCurrencySpinner() {
         currencyChoserSpinner.setSelection(0)
         currencyChoserSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(
@@ -106,14 +106,20 @@ class InfoAskFragment : Fragment() {
                     Currency.btcUsdt -> {
                         amountHeaderTV.text = "Amount BTC"
                         priceHeaderTV.text = "Price USDT"
+                        viewModel.wsDisconnect()
+                        viewModel.getWsOrders(Currency.wsBtcUsdt)
                     }
                     Currency.bnbBtc -> {
                         amountHeaderTV.text = "Amount BNB"
                         priceHeaderTV.text = "Price BTC"
+                        viewModel.wsDisconnect()
+                        viewModel.getWsOrders(Currency.wsBnbBtc)
                     }
                     Currency.ethBtc -> {
                         amountHeaderTV.text = "Amount ETH"
                         priceHeaderTV.text = "Price BTC"
+                        viewModel.wsDisconnect()
+                        viewModel.getWsOrders(Currency.wsEthBtc)
                     }
                 }
             }

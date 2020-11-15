@@ -67,6 +67,7 @@ dependencies {
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
 
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
     //WebSocket
     implementation "com.github.navinilavarasan:rxWebSocket:$rxWebSoket_version"
 

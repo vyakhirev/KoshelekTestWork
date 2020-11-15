@@ -1,8 +1,132 @@
 package ru.vyakhirev.koshelektestwork.presentation.info_bid
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.google.gson.GsonBuilder
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import ru.vyakhirev.koshelektestwork.data.model.CurrencyModel
+import ru.vyakhirev.koshelektestwork.data.model.DepthStreamModel
+import ru.vyakhirev.koshelektestwork.data.remote.ApiBinance
+import ru.vyakhirev.koshelektestwork.data.remote.WsBinance
 import javax.inject.Inject
 
-class InfoBidViewModel @Inject constructor() : ViewModel() {
-    // TODO: Implement the ViewModel
+class InfoBidViewModel @Inject constructor(
+    private val apiService: ApiBinance,
+    private val wSocket: WsBinance
+) : ViewModel() {
+
+//    private var wSocket = WsBinance()
+
+    var list: MutableList<CurrencyModel> = mutableListOf()
+
+    var disposable = CompositeDisposable()
+
+    private val _orders = MutableLiveData<MutableList<CurrencyModel>>()
+    val orders: LiveData<MutableList<CurrencyModel>> = _orders
+
+
+    private val _isViewLoading = MutableLiveData<Boolean>()
+    val isViewLoading: LiveData<Boolean> = _isViewLoading
+
+    private val _onMessageError = MutableLiveData<Boolean>()
+    val onMessageError: LiveData<Boolean> = _onMessageError
+
+    private val _wsStreamData = MutableLiveData<DepthStreamModel>()
+    val wsStreamData: LiveData<DepthStreamModel> = _wsStreamData
+
+    private var mes: String = ""
+    var messages = MutableLiveData<String>()
+    val gson = GsonBuilder().setLenient().create()
+
+    var lastUpdatedId: Long = 0
+    var lastUpdatedLive = MutableLiveData<Long>()
+
+    fun manageLocalOrderBook(apiCur: String, wsCur: String) {
+
+//        getOrdersBook(apiCur)
+        var streamBuf: MutableList<DepthStreamModel> = mutableListOf()
+        var firstProcedEvent: DepthStreamModel? = null
+        disposable.add(
+            wSocket.onConnect(wsCur)
+                .flatMapPublisher {
+                    it.client().listen()
+                }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .map {
+                    gson.fromJson(it.data(), DepthStreamModel::class.java)
+                }
+//                .filter{
+//                    it.finalUpdate>lastUpdatedId
+//                }
+                .subscribe({
+                    if (it.firstUpdate <= (lastUpdatedId + 1) && it.finalUpdate >= (lastUpdatedId + 1)) {
+                        firstProcedEvent = it
+//                        streamBuf.add(it)
+                        _wsStreamData.value = it
+                    } else if ((firstProcedEvent?.finalUpdate?.plus(1)) == it.firstUpdate)
+                        _wsStreamData.value = it
+                    else
+                        _wsStreamData.value = it
+
+                },
+                    {
+                        Log.d("Error", "Error= ${it.message}")
+                    }
+                )
+        )
+
+    }
+
+    fun getWsOrders(wsCur: String) {
+        disposable.add(
+            wSocket.onConnect(wsCur)
+                .flatMapPublisher { open ->
+                    open.client().listen()
+                }
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        val gs = gson.fromJson(it.data(), DepthStreamModel::class.java)
+                        _wsStreamData.value = gs
+                    },
+                    {
+                        Log.d("kann", "Throwable=${it.message.toString()}")
+                    }
+                )
+        )
+    }
+
+    fun getOrdersBook(symbol: String) {
+        disposable.add(
+            apiService.getOrdersBook(symbol)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        _isViewLoading.value = true
+                        it.asks.map {
+                            list.add(CurrencyModel(it[0], it[1]))
+                        }
+                        _orders.value = list
+                        lastUpdatedLive.value = it.lastUpdateId
+                        _isViewLoading.value = false
+                    },
+                    {
+                        Log.d("Oshib", it.message.toString())
+                    }
+                )
+        )
+    }
+
+    override fun onCleared() {
+        disposable.clear()
+        Log.d("OnCleared", "Invoked!")
+        wSocket.onDisconnect()
+    }
 }

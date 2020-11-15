@@ -9,22 +9,15 @@ import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.navin.flintstones.rxwebsocket.RxWebsocket
-import com.navin.flintstones.rxwebsocket.RxWebsocket.Open
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.internal.functions.Functions.emptyConsumer
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.info_ask_fragment.*
-import okhttp3.Interceptor
-import okhttp3.OkHttpClient
 import ru.vyakhirev.koshelektestwork.R
 import ru.vyakhirev.koshelektestwork.data.Currency
-import ru.vyakhirev.koshelektestwork.data.model.DepthStreamModel
+import ru.vyakhirev.koshelektestwork.data.model.CurrencyModel
 import ru.vyakhirev.koshelektestwork.data.remote.ApiBinance
-import ru.vyakhirev.koshelektestwork.data.remote.WebSocketConverterFactory
 import ru.vyakhirev.koshelektestwork.di.DaggerAppComponent
-import ru.vyakhirev.koshelektestwork.presentation.info_ask.adapter.CurrencyAdapter
+import ru.vyakhirev.koshelektestwork.presentation.base.adapter.CurrencyAdapter
 import javax.inject.Inject
+
 
 class InfoAskFragment : Fragment() {
     companion object {
@@ -32,15 +25,10 @@ class InfoAskFragment : Fragment() {
     }
 
     @Inject
-    lateinit var apiService:ApiBinance
-
-    @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-
-
     private lateinit var viewModel: InfoAskViewModel
-    private lateinit var adapterRv:CurrencyAdapter
+    private lateinit var adapterRv: CurrencyAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,10 +37,6 @@ class InfoAskFragment : Fragment() {
         return inflater.inflate(R.layout.info_ask_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -67,26 +51,36 @@ class InfoAskFragment : Fragment() {
 
         setupRecyclerView()
 
-         viewModel.getOrdersBook("BTCUSDT")
+//        viewModel.getOrdersBook("BTCUSDT")
+    viewModel.getWsOrders(Currency.wsBtcUsdt)
+        viewModel.wsStreamData.observe(
+            viewLifecycleOwner,
+            {
+              Log.d("dia","wsStreamData=${it.toString()}")
+                it.asks.map {
+                    var currencyModel: CurrencyModel
 
-        viewModel.getWsOrders()
-
+                    if ((it[1] !=0.0)) {
+                        currencyModel = CurrencyModel(it[0], it[1])
+                        adapterRv.addItem(currencyModel)
+                    }
+                }
+            }
+        )
 
         viewModel.orders.observe(
             viewLifecycleOwner,
             {
-                Log.d("lld", it.toString())
                 adapterRv.update(it)
-//                Thread.sleep(3000)
-//                viewModel.getOrdersBook("BTCUSDT")
+                viewModel.manageLocalOrderBook("BTCUSDT",Currency.btcUsdt)
             })
-
-
+        viewModel.lastUpdatedLive.observe(
+            viewLifecycleOwner,
+            {
+                Log.d("dia",it.toString())
+            }
+        )
     }
-
-
-
-
 
     private fun setupCurrencySpoinner() {
         currencyChoserSpinner.setSelection(0)
@@ -124,7 +118,8 @@ class InfoAskFragment : Fragment() {
         adapterRv =
             CurrencyAdapter(
                 requireContext(),
-                listOf()
+                mutableListOf(),
+                isAsk = true
             )
         currencyAskBidRV.layoutManager = LinearLayoutManager(context)
         currencyAskBidRV.adapter = adapterRv

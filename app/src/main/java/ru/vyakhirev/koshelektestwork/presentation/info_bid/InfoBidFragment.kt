@@ -2,11 +2,21 @@ package ru.vyakhirev.koshelektestwork.presentation.info_bid
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.info_ask_fragment.*
+import kotlinx.android.synthetic.main.info_bid_fragment.*
 import ru.vyakhirev.koshelektestwork.R
+import ru.vyakhirev.koshelektestwork.data.Currency
+import ru.vyakhirev.koshelektestwork.data.model.CurrencyModel
+import ru.vyakhirev.koshelektestwork.di.DaggerAppComponent
+import ru.vyakhirev.koshelektestwork.presentation.base.adapter.CurrencyAdapter
+import javax.inject.Inject
 
 class InfoBidFragment : Fragment() {
 
@@ -14,7 +24,11 @@ class InfoBidFragment : Fragment() {
         fun newInstance() = InfoBidFragment()
     }
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
     private lateinit var viewModel: InfoBidViewModel
+    private lateinit var adapterRv: CurrencyAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -23,10 +37,91 @@ class InfoBidFragment : Fragment() {
         return inflater.inflate(R.layout.info_bid_fragment, container, false)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(InfoBidViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        DaggerAppComponent.create().inject(this)
+
+        setupCurrencySpoinner()
+
+        viewModel = ViewModelProvider(
+            this,
+            viewModelFactory
+        ).get(InfoBidViewModel::class.java)
+
+        setupRecyclerView()
+
+//        viewModel.getOrdersBook("BTCUSDT")
+        viewModel.getWsOrders(Currency.wsBtcUsdt)
+        viewModel.wsStreamData.observe(
+            viewLifecycleOwner,
+            {
+                Log.d("dia","wsStreamData=${it.toString()}")
+                it.bids.map {
+                    var currencyModel: CurrencyModel
+
+                    if ((it[1] !=0.0)) {
+                        currencyModel = CurrencyModel(it[0], it[1])
+                        adapterRv.addItem(currencyModel)
+                    }
+                }
+            }
+        )
+
+        viewModel.orders.observe(
+            viewLifecycleOwner,
+            {
+                adapterRv.update(it)
+                viewModel.manageLocalOrderBook("BTCUSDT", Currency.btcUsdt)
+            })
+        viewModel.lastUpdatedLive.observe(
+            viewLifecycleOwner,
+            {
+                Log.d("dia",it.toString())
+            }
+        )
     }
 
+    private fun setupCurrencySpoinner() {
+        bidCurrencyChoserSpinner.setSelection(0)
+        bidCurrencyChoserSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View,
+                position: Int,
+                id: Long
+            ) {
+                when (parent.getItemAtPosition(position).toString()) {
+                    Currency.btcUsdt -> {
+                        bidAmountHeaderTV.text = "Amount BTC"
+                        bidPriceHeaderTV.text = "Price USDT"
+                    }
+                    Currency.bnbBtc -> {
+                        bidAmountHeaderTV.text = "Amount BNB"
+                        bidPriceHeaderTV.text = "Price BTC"
+                    }
+                    Currency.ethBtc -> {
+                        bidAmountHeaderTV.text = "Amount ETH"
+                        bidPriceHeaderTV.text = "Price BTC"
+                    }
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Another interface callback
+            }
+        }
+    }
+
+    private fun setupRecyclerView() {
+
+        adapterRv =
+            CurrencyAdapter(
+                requireContext(),
+                mutableListOf(),
+                isAsk = false
+            )
+        currencyBidRV.layoutManager = LinearLayoutManager(context)
+        currencyBidRV.adapter = adapterRv
+    }
 }

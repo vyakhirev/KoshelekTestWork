@@ -2,39 +2,24 @@ package ru.vyakhirev.koshelektestwork.data.remote
 
 import android.util.Log
 import com.navin.flintstones.rxwebsocket.RxWebsocket
-import io.reactivex.Flowable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import okhttp3.*
-import okio.ByteString
-import retrofit2.http.GET
-import retrofit2.http.Query
-import ru.vyakhirev.koshelektestwork.data.model.OrderBookResponse
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import javax.inject.Inject
 
 
-class WsBinance {
+class WsBinance @Inject constructor(){
 
     private var websocket: RxWebsocket? = null
 
-    fun onConnect():Single<RxWebsocket.Open> {
-        openWebsocket()
+    fun onConnect(wsCur:String):Single<RxWebsocket.Open> {
+        openWebsocket(wsCur)
         return websocket!!.connect()
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe(
-//                { event: RxWebsocket.Open ->
-//                    Log.d(
-//                        "kan",
-//                        event.toString()
-//                    )
-//                }
-//            ) {
-////                this.logError(
-////                    throwable
-//            }
     }
 
-    private fun openWebsocket() {
+    private fun openWebsocket(wsCur:String) {
         val okHttpClientBuilder = OkHttpClient.Builder()
         okHttpClientBuilder.addInterceptor(Interceptor { chain: Interceptor.Chain ->
             val original = chain.request()
@@ -45,17 +30,22 @@ class WsBinance {
         })
         websocket = RxWebsocket.Builder()
             .addConverterFactory(WebSocketConverterFactory.create())
-            .addReceiveInterceptor { data: String -> "INTERCEPTED:$data" }
-            .build(okHttpClientBuilder.build(), "wss://stream.binance.com:9443/ws/bnbbtc@depth")
+            .addReceiveInterceptor { data: String -> "$data" }
+            .build(okHttpClientBuilder.build(), "wss://stream.binance.com:9443/ws/${wsCur}@depth")
+    }
 
-        websocket!!.eventStream()
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribeOn(Schedulers.io())
-            .subscribe({
-                Log.d("kan", it.client().Open().response().toString())
-            },
-                {
-                    Log.d("kan", it.message.toString())
-                })
+
+    fun onDisconnect() {
+        if (websocket != null) {
+            websocket!!.disconnect(1000, "Disconnect")
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        Log.d("WebSocketMy","Disconnect!")
+                    },
+                 {
+                }
+                )
+        }
     }
 }

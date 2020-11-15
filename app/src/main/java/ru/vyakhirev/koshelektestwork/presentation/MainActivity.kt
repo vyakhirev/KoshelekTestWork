@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import ru.vyakhirev.koshelektestwork.R
-import ru.vyakhirev.koshelektestwork.presentation.details.DetailsFragment
+import ru.vyakhirev.koshelektestwork.presentation.difference.DifferenceFragment
 import ru.vyakhirev.koshelektestwork.presentation.info_ask.InfoAskFragment
 import ru.vyakhirev.koshelektestwork.presentation.info_bid.InfoBidFragment
 
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 R.id.action_details -> {
-                    openFragment(DetailsFragment())
+                    openFragment(DifferenceFragment())
                     return@OnNavigationItemSelectedListener true
                 }
             }

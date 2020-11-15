@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.info_ask_fragment.*
 import ru.vyakhirev.koshelektestwork.R
 import ru.vyakhirev.koshelektestwork.data.Currency
 import ru.vyakhirev.koshelektestwork.data.model.CurrencyModel
-import ru.vyakhirev.koshelektestwork.data.remote.ApiBinance
 import ru.vyakhirev.koshelektestwork.di.DaggerAppComponent
 import ru.vyakhirev.koshelektestwork.presentation.base.adapter.CurrencyAdapter
 import javax.inject.Inject
@@ -52,15 +51,17 @@ class InfoAskFragment : Fragment() {
         setupRecyclerView()
 
 //        viewModel.getOrdersBook("BTCUSDT")
-    viewModel.getWsOrders(Currency.wsBtcUsdt)
+
+        viewModel.getWsOrders(Currency.wsBtcUsdt)
+
         viewModel.wsStreamData.observe(
             viewLifecycleOwner,
             {
-              Log.d("dia","wsStreamData=${it.toString()}")
+                Log.d("dia", "wsStreamData=${it.toString()}")
                 it.asks.map {
                     var currencyModel: CurrencyModel
 
-                    if ((it[1] !=0.0)) {
+                    if ((it[1] != 0.0)) {
                         currencyModel = CurrencyModel(it[0], it[1])
                         adapterRv.addItem(currencyModel)
                     }
@@ -72,14 +73,24 @@ class InfoAskFragment : Fragment() {
             viewLifecycleOwner,
             {
                 adapterRv.update(it)
-                viewModel.manageLocalOrderBook("BTCUSDT",Currency.btcUsdt)
             })
-        viewModel.lastUpdatedLive.observe(
+
+        viewModel.isViewLoading.observe(
             viewLifecycleOwner,
             {
-                Log.d("dia",it.toString())
+                if (it) {
+                    users_loading_PB.visibility=View.VISIBLE
+                }
+                else
+                    users_loading_PB.visibility=View.GONE
             }
         )
+//        viewModel.lastUpdatedLive.observe(
+//            viewLifecycleOwner,
+//            {
+//                Log.d("dia", it.toString())
+//            }
+//        )
     }
 
     private fun setupCurrencySpoinner() {

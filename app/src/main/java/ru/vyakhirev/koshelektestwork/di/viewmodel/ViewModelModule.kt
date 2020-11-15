@@ -6,7 +6,7 @@ import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoMap
-import ru.vyakhirev.koshelektestwork.presentation.details.DetailsViewModel
+import ru.vyakhirev.koshelektestwork.presentation.difference.DifferenceViewModel
 import ru.vyakhirev.koshelektestwork.presentation.info_ask.InfoAskViewModel
 import ru.vyakhirev.koshelektestwork.presentation.info_bid.InfoBidViewModel
 import javax.inject.Singleton
@@ -38,7 +38,7 @@ interface ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(DetailsViewModel::class)
-    fun bindsDetailsViewModel(detailsViewModel: DetailsViewModel): ViewModel
+    @ViewModelKey(DifferenceViewModel::class)
+    fun bindsDetailsViewModel(differenceViewModel: DifferenceViewModel): ViewModel
 
 }

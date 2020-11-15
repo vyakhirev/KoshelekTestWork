@@ -4,22 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.info_bid.InfoBidFragment">
-
-
-    <ProgressBar
-        android:id="@+id/bidUsers_loading_PB"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/data_is_loading"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".presentation.difference.DifferenceFragment">
 
     <Spinner
-        android:id="@+id/bidCurrencyChoserSpinner"
+        android:id="@+id/diffCurrencyChoserSpinner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:entries="@array/currency"
@@ -29,43 +17,52 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-        android:id="@+id/bidHeaderRow"
+        android:id="@+id/diffHeaderRow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:paddingLeft="@dimen/padding_16dp"
         android:paddingTop="@dimen/margin_32dp"
-        app:layout_constraintTop_toBottomOf="@+id/bidCurrencyChoserSpinner">
-
-        <TextView
-            android:id="@+id/bidAmountHeaderTV"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            tools:text="Amount BTC" />
+        app:layout_constraintTop_toBottomOf="@+id/diffCurrencyChoserSpinner">
 
         <TextView
             android:id="@+id/bidPriceHeaderTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            tools:text="Price USDT" />
+            android:text="@string/bidPrice"
+            tools:text="wBid price" />
 
         <TextView
-            android:id="@+id/bidTotalHeaderTV"
+            android:id="@+id/diffBidHeaderTV"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/total" />
+            android:text="@string/diff"
+            tools:text="Diff" />
+
+        <TextView
+            android:id="@+id/askPriceHeaderTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/ask_price" />
+
+        <TextView
+            android:id="@+id/diffAskHeaderTV"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/diff" />
 
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/currencyBidRV"
+        android:id="@+id/currencyAskBidRV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/bidHeaderRow"
+        app:layout_constraintTop_toBottomOf="@+id/diffHeaderRow"
 
         />
 

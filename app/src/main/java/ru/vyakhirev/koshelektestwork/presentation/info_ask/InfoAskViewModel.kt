@@ -45,44 +45,7 @@ class InfoAskViewModel @Inject constructor(
     var lastUpdatedId: Long = 0
    var lastUpdatedLive=MutableLiveData<Long>()
 
-    fun manageLocalOrderBook(apiCur: String, wsCur: String) {
 
-//        getOrdersBook(apiCur)
-        var streamBuf: MutableList<DepthStreamModel> = mutableListOf()
-        var firstProcedEvent:DepthStreamModel?=null
-        disposable.add(
-            wSocket.onConnect(wsCur)
-                .flatMapPublisher {
-                    it.client().listen()
-                }
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map {
-                    gson.fromJson(it.data(), DepthStreamModel::class.java)
-                }
-//                .filter{
-//                    it.finalUpdate>lastUpdatedId
-//                }
-                .subscribe({
-                    if (it.firstUpdate<=(lastUpdatedId+1)&&it.finalUpdate>=(lastUpdatedId+1)) {
-                        firstProcedEvent = it
-//                        streamBuf.add(it)
-                        _wsStreamData.value=it
-                    }
-                    else if ((firstProcedEvent?.finalUpdate?.plus(1))==it.firstUpdate)
-                        _wsStreamData.value=it
-
-                    else
-                        _wsStreamData.value=it
-
-                },
-                    {
-                        Log.d("Error", "Error= ${it.message}")
-                    }
-                )
-        )
-
-    }
 
     fun getWsOrders(wsCur: String) {
         disposable.add(
@@ -94,8 +57,10 @@ class InfoAskViewModel @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
+                        _isViewLoading.value=true
                         val gs = gson.fromJson(it.data(), DepthStreamModel::class.java)
                         _wsStreamData.value = gs
+                        _isViewLoading.value=false
                     },
                     {
                         Log.d("kann", "Throwable=${it.message.toString()}")
@@ -131,4 +96,43 @@ class InfoAskViewModel @Inject constructor(
         Log.d("OnCleared", "Invoked!")
         wSocket.onDisconnect()
     }
+
+
+//    fun manageLocalOrderBook(apiCur: String, wsCur: String) {
+//
+//        getOrdersBook(apiCur)
+//        var streamBuf: MutableList<DepthStreamModel> = mutableListOf()
+//        var firstProcedEvent:DepthStreamModel?=null
+//        disposable.add(
+//            wSocket.onConnect(wsCur)
+//                .flatMapPublisher {
+//                    it.client().listen()
+//                }
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .map {
+//                    gson.fromJson(it.data(), DepthStreamModel::class.java)
+//                }
+//                .filter{
+//                    it.finalUpdate>lastUpdatedId
+//                }
+//                .subscribe({
+//                    if (it.firstUpdate<=(lastUpdatedId+1)&&it.finalUpdate>=(lastUpdatedId+1)) {
+//                        firstProcedEvent = it
+//                        streamBuf.add(it)
+//                        _wsStreamData.value=it
+//                    }
+//                    else if ((firstProcedEvent?.finalUpdate?.plus(1))==it.firstUpdate)
+//                        _wsStreamData.value=it
+//
+//                    else
+//                        _wsStreamData.value=it
+//
+//                },
+//                    {
+//                        Log.d("Error", "Error= ${it.message}")
+//                    }
+//                )
+//        )
+//    }
 }

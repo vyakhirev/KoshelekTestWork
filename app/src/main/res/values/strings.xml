@@ -3,6 +3,12 @@
     <string name="info_bid">Info: Bid</string>
     <string name="details">Details</string>
     <string name="total">TOTAL</string>
+    <string name="bidPrice">Bid price</string>
+    <string name="diff">DIFF</string>
+    <string name="ask_price">Ask price</string>
+    <string name="data_is_loading">Data is loading...</string>
+    <string name="error">Error</string>
+    <string name="difference">Difference</string>
     <string-array name="currency">
         <item>BTC/USDT</item>
         <item>BNB/BTC</item>

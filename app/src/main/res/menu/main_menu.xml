@@ -20,6 +20,6 @@
         android:id="@+id/action_details"
         android:icon="@drawable/ic_details"
         android:orderInCategory="100"
-        android:title="@string/details"
+        android:title="@string/difference"
         />
 </menu>

@@ -56,11 +56,11 @@ class InfoBidFragment : Fragment() {
         viewModel.wsStreamData.observe(
             viewLifecycleOwner,
             {
-                Log.d("dia","wsStreamData=${it.toString()}")
+                Log.d("dia", "wsStreamData=${it.toString()}")
                 it.bids.map {
                     var currencyModel: CurrencyModel
 
-                    if ((it[1] !=0.0)) {
+                    if ((it[1] != 0.0)) {
                         currencyModel = CurrencyModel(it[0], it[1])
                         adapterRv.addItem(currencyModel)
                     }
@@ -68,20 +68,16 @@ class InfoBidFragment : Fragment() {
             }
         )
 
-        viewModel.orders.observe(
+        viewModel.isViewLoading.observe(
             viewLifecycleOwner,
             {
-                adapterRv.update(it)
-                viewModel.manageLocalOrderBook("BTCUSDT", Currency.btcUsdt)
-            })
-        viewModel.lastUpdatedLive.observe(
-            viewLifecycleOwner,
-            {
-                Log.d("dia",it.toString())
+                if (it) {
+                    bidUsers_loading_PB.visibility = View.VISIBLE
+                } else
+                    bidUsers_loading_PB.visibility = View.GONE
             }
         )
     }
-
     private fun setupCurrencySpoinner() {
         bidCurrencyChoserSpinner.setSelection(0)
         bidCurrencyChoserSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

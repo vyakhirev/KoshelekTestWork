@@ -19,7 +19,7 @@ class MainActivity : AppCompatActivity() {
     private fun setupNavigation() {
         val bottomNavigation: BottomNavigationView = findViewById(R.id.bottomNav)
         bottomNavigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-        openFragment(InfoAskFragment())
+        openFragment(InfoBidFragment())
     }
 
     private val mOnNavigationItemSelectedListener =

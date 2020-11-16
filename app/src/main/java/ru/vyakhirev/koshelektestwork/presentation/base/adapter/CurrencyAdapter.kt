@@ -42,6 +42,11 @@ class CurrencyAdapter(
         notifyDataSetChanged()
     }
 
+    fun clear(){
+        currencyList.clear()
+        notifyDataSetChanged()
+    }
+
     fun addItem(item: CurrencyModel) {
         currencyList.add(item)
         currencyList.reverse()

@@ -15,21 +15,23 @@ class DifferenceViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(item: DiffModel) {
         itemView.bidPriceTV.text = item.bidPriceNow.format(6).toString()
+        itemView.bidPriceTV.setTextColor(Color.parseColor(green))
         itemView.diffBidTV.text = item.diffBid.format(6).toString()
-        if (item.diffBid < 0)
-            itemView.diffBidTV.setTextColor(
-                Color.parseColor(red)
-            )
-        else itemView.diffBidTV.setTextColor(Color.parseColor(green))
+//        if (item.diffBid < 0)
+//            itemView.diffBidTV.setTextColor(
+//                Color.parseColor(red)
+//            )
+//        else itemView.diffBidTV.setTextColor(Color.parseColor(green))
 
 
         itemView.askPriceTV.text = item.askPriceNow.format(6).toString()
+        itemView.askPriceTV.setTextColor(Color.parseColor(red))
         itemView.diffAskTV.text = item.diffAsk.format(6).toString()
-        if (item.diffAsk < 0)
-            itemView.diffAskTV.setTextColor(
-                Color.parseColor(red)
-            )
-        else itemView.diffAskTV.setTextColor(Color.parseColor(green))
+//        if (item.diffAsk < 0)
+//            itemView.diffAskTV.setTextColor(
+//                Color.parseColor(red)
+//            )
+//        else itemView.diffAskTV.setTextColor(Color.parseColor(green))
 
     }
 }

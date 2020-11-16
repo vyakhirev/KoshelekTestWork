@@ -55,7 +55,7 @@ class InfoBidFragment : Fragment() {
             {
                 Log.d("dia", "wsStreamData=${it.toString()}")
                 it.bids.map {
-                    var currencyModel: CurrencyModel
+                    val currencyModel: CurrencyModel
 
                     if ((it[1] != 0.0)) {
                         currencyModel = CurrencyModel(it[0], it[1])
@@ -101,20 +101,23 @@ class InfoBidFragment : Fragment() {
                 ) {
                     when (parent.getItemAtPosition(position).toString()) {
                         Currency.btcUsdt -> {
-                            bidAmountHeaderTV.text = "Amount BTC"
-                            bidPriceHeaderTV.text = "Price USDT"
+                            bidAmountHeaderTV.text = getString(R.string.amount_btc)
+                            bidPriceHeaderTV.text = getString(R.string.amount_usdt)
+                            adapterRv.clear()
                             viewModel.wsDisconnect()
                             viewModel.getWsOrders(Currency.wsBtcUsdt)
                         }
                         Currency.bnbBtc -> {
-                            bidAmountHeaderTV.text = "Amount BNB"
-                            bidPriceHeaderTV.text = "Price BTC"
+                            bidAmountHeaderTV.text = getString(R.string.amountBNB)
+                            bidPriceHeaderTV.text = getString(R.string.priceBTC)
+                            adapterRv.clear()
                             viewModel.wsDisconnect()
                             viewModel.getWsOrders(Currency.wsBnbBtc)
                         }
                         Currency.ethBtc -> {
-                            bidAmountHeaderTV.text = "Amount ETH"
-                            bidPriceHeaderTV.text = "Price BTC"
+                            bidAmountHeaderTV.text = getString(R.string.AmountEtn)
+                            bidPriceHeaderTV.text = getString(R.string.PriceBtc)
+                            adapterRv.clear()
                             viewModel.wsDisconnect()
                             viewModel.getWsOrders(Currency.wsEthBtc)
                         }

@@ -34,6 +34,11 @@ class DifferenceAdapter(
         notifyDataSetChanged()
     }
 
+    fun clear(){
+        currencyList.clear()
+        notifyDataSetChanged()
+    }
+
     fun addItem(item: DiffModel) {
         currencyList.add(item)
         currencyList.reverse()

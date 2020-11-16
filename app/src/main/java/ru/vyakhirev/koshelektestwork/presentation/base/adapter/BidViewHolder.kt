@@ -13,8 +13,8 @@ class BidViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(item: CurrencyModel) {
         itemView.amountTV.text = item.price.format(6).toString()
         itemView.priceTV.text = item.amount.format(6).toString()
-        itemView.priceTV.setTextColor(Color.parseColor("#7FFF0000"))
-        var total = item.amount * item.price
+        itemView.priceTV.setTextColor(Color.parseColor("#FF4CAF50"))
+        val total = item.amount * item.price
         itemView.totalTV.text = total.format(6).toString()
     }
 }

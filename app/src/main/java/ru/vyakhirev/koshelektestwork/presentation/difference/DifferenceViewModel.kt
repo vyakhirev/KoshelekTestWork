@@ -8,9 +8,7 @@ import com.google.gson.GsonBuilder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import ru.vyakhirev.koshelektestwork.data.model.CurrencyModel
 import ru.vyakhirev.koshelektestwork.data.model.DepthStreamModel
-import ru.vyakhirev.koshelektestwork.data.model.DiffModel
 import ru.vyakhirev.koshelektestwork.data.remote.ApiBinance
 import ru.vyakhirev.koshelektestwork.data.remote.WsBinance
 import javax.inject.Inject
@@ -49,7 +47,7 @@ class DifferenceViewModel @Inject constructor(
                         _isViewLoading.value = false
                     },
                     {
-                        _onMessageError.value=true
+                        _onMessageError.value = true
                         Log.d("kann", "Throwable=${it.message.toString()}")
                     }
                 )

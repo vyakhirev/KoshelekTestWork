@@ -10,8 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.difference_fragment.*
-import kotlinx.android.synthetic.main.difference_fragment.diffRV
-import kotlinx.android.synthetic.main.info_ask_fragment.*
 import ru.vyakhirev.koshelektestwork.R
 import ru.vyakhirev.koshelektestwork.data.Currency
 import ru.vyakhirev.koshelektestwork.data.model.DiffModel
@@ -59,7 +57,7 @@ class DifferenceFragment : Fragment() {
             viewLifecycleOwner,
             {
 
-                var diffModel: DiffModel = DiffModel(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+                val diffModel = DiffModel(0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
                 diffModel.bidPricePrevios = it.bids[0][0]
                 diffModel.bidPriceNow = it.bids[1][0]
                 diffModel.diffBid = diffModel.bidPriceNow - diffModel.bidPricePrevios
@@ -85,10 +83,10 @@ class DifferenceFragment : Fragment() {
             viewLifecycleOwner,
             {
                 if (it) {
-                    difUsers_loading_PB.visibility=View.GONE
-                    diffRV.visibility=View.GONE
-                    diffErrorImg.visibility=View.VISIBLE
-                    diffErrorTV.visibility=View.VISIBLE
+                    difUsers_loading_PB.visibility = View.GONE
+                    diffRV.visibility = View.GONE
+                    diffErrorImg.visibility = View.VISIBLE
+                    diffErrorTV.visibility = View.VISIBLE
                 }
             }
         )
@@ -106,14 +104,17 @@ class DifferenceFragment : Fragment() {
                 ) {
                     when (parent.getItemAtPosition(position).toString()) {
                         Currency.btcUsdt -> {
+                            adapterRv.clear()
                             viewModel.wsDisconnect()
                             viewModel.getWsOrders(Currency.wsBtcUsdt)
                         }
                         Currency.bnbBtc -> {
+                            adapterRv.clear()
                             viewModel.wsDisconnect()
                             viewModel.getWsOrders(Currency.wsBnbBtc)
                         }
                         Currency.ethBtc -> {
+                            adapterRv.clear()
                             viewModel.wsDisconnect()
                             viewModel.getWsOrders(Currency.wsEthBtc)
                         }

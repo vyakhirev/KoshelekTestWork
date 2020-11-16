@@ -6,9 +6,15 @@
     <string name="bidPrice">Bid price</string>
     <string name="diff">DIFF</string>
     <string name="ask_price">Ask price</string>
-    <string name="data_is_loading">Data is loading...</string>
+    <string name="data_is_loading">Data is loading</string>
     <string name="error">Error loading data</string>
     <string name="difference">Difference</string>
+    <string name="amount_btc">Amount BTC</string>
+    <string name="amount_usdt">Price USDT</string>
+    <string name="amountBNB">Amount BNB</string>
+    <string name="priceBTC">Price BTC</string>
+    <string name="AmountEtn">Amount ETH</string>
+    <string name="PriceBtc">Price BTC</string>
     <string-array name="currency">
         <item>BTC/USDT</item>
         <item>BNB/BTC</item>

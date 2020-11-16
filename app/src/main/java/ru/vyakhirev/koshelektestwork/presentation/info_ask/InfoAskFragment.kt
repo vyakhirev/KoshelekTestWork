@@ -58,7 +58,7 @@ class InfoAskFragment : Fragment() {
                 Log.d("dia", "wsStreamData=${it.toString()}")
                 it.asks.map {
 
-                    var currencyModel: CurrencyModel
+                    val currencyModel: CurrencyModel
 
                     if ((it[1] != 0.0)) {
                         currencyModel = CurrencyModel(it[0], it[1])
@@ -110,20 +110,23 @@ class InfoAskFragment : Fragment() {
             ) {
                 when (parent.getItemAtPosition(position).toString()) {
                     Currency.btcUsdt -> {
-                        amountHeaderTV.text = "Amount BTC"
-                        priceHeaderTV.text = "Price USDT"
+                        amountHeaderTV.text = getString(R.string.amount_btc)
+                        priceHeaderTV.text = getString(R.string.amount_usdt)
+                        adapterRv.clear()
                         viewModel.wsDisconnect()
                         viewModel.getWsOrders(Currency.wsBtcUsdt)
                     }
                     Currency.bnbBtc -> {
-                        amountHeaderTV.text = "Amount BNB"
-                        priceHeaderTV.text = "Price BTC"
+                        amountHeaderTV.text = getString(R.string.amountBNB)
+                        priceHeaderTV.text = getString(R.string.priceBTC)
+                        viewModel.orders.value?.clear()
                         viewModel.wsDisconnect()
                         viewModel.getWsOrders(Currency.wsBnbBtc)
                     }
                     Currency.ethBtc -> {
-                        amountHeaderTV.text = "Amount ETH"
-                        priceHeaderTV.text = "Price BTC"
+                        amountHeaderTV.text = getString(R.string.AmountEtn)
+                        priceHeaderTV.text = getString(R.string.PriceBtc)
+                        adapterRv.clear()
                         viewModel.wsDisconnect()
                         viewModel.getWsOrders(Currency.wsEthBtc)
                     }

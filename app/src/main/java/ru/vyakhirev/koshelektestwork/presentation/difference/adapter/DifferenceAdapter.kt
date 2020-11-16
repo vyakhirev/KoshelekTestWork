@@ -5,8 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.vyakhirev.koshelektestwork.R
-import ru.vyakhirev.koshelektestwork.data.DiffModel
-import ru.vyakhirev.koshelektestwork.presentation.base.adapter.AskViewHolder
+import ru.vyakhirev.koshelektestwork.data.model.DiffModel
 
 class DifferenceAdapter(
     private val context: Context,

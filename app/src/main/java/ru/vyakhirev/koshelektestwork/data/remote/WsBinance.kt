@@ -4,22 +4,21 @@ import android.util.Log
 import com.navin.flintstones.rxwebsocket.RxWebsocket
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import javax.inject.Inject
 
 
-class WsBinance @Inject constructor(){
+class WsBinance @Inject constructor() {
 
     private var websocket: RxWebsocket? = null
 
-    fun onConnect(wsCur:String):Single<RxWebsocket.Open> {
+    fun onConnect(wsCur: String): Single<RxWebsocket.Open> {
         openWebsocket(wsCur)
         return websocket!!.connect()
     }
 
-    private fun openWebsocket(wsCur:String) {
+    private fun openWebsocket(wsCur: String) {
         val okHttpClientBuilder = OkHttpClient.Builder()
         okHttpClientBuilder.addInterceptor(Interceptor { chain: Interceptor.Chain ->
             val original = chain.request()
@@ -41,10 +40,10 @@ class WsBinance @Inject constructor(){
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        Log.d("WebSocketMy","Disconnect!")
+                        Log.d("WebSocketMy", "Disconnect!")
                     },
-                 {
-                }
+                    {
+                    }
                 )
         }
     }

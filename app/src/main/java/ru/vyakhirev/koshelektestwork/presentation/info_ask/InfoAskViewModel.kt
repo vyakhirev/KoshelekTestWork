@@ -19,15 +19,12 @@ class InfoAskViewModel @Inject constructor(
     private val wSocket: WsBinance
 ) : ViewModel() {
 
-//    private var wSocket = WsBinance()
-
     var list: MutableList<CurrencyModel> = mutableListOf()
 
     var disposable = CompositeDisposable()
 
     private val _orders = MutableLiveData<MutableList<CurrencyModel>>()
     val orders: LiveData<MutableList<CurrencyModel>> = _orders
-
 
     private val _isViewLoading = MutableLiveData<Boolean>()
     val isViewLoading: LiveData<Boolean> = _isViewLoading
@@ -38,14 +35,7 @@ class InfoAskViewModel @Inject constructor(
     private val _wsStreamData = MutableLiveData<DepthStreamModel>()
     val wsStreamData: LiveData<DepthStreamModel> = _wsStreamData
 
-    private var mes: String = ""
-    var messages = MutableLiveData<String>()
     val gson = GsonBuilder().setLenient().create()
-
-    var lastUpdatedId: Long = 0
-   var lastUpdatedLive=MutableLiveData<Long>()
-
-
 
     fun getWsOrders(wsCur: String) {
         disposable.add(
@@ -57,12 +47,13 @@ class InfoAskViewModel @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        _isViewLoading.value=true
+                        _isViewLoading.value = true
                         val gs = gson.fromJson(it.data(), DepthStreamModel::class.java)
                         _wsStreamData.value = gs
-                        _isViewLoading.value=false
+                        _isViewLoading.value = false
                     },
                     {
+                        _onMessageError.value = true
                         Log.d("kann", "Throwable=${it.message.toString()}")
                     }
                 )
@@ -81,17 +72,17 @@ class InfoAskViewModel @Inject constructor(
                             list.add(CurrencyModel(it[0], it[1]))
                         }
                         _orders.value = list
-                        lastUpdatedLive.value=it.lastUpdateId
                         _isViewLoading.value = false
                     },
                     {
+                        _onMessageError.value = true
                         Log.d("Oshib", it.message.toString())
                     }
                 )
         )
     }
 
-    fun wsDisconnect(){
+    fun wsDisconnect() {
         wSocket.onDisconnect()
     }
 

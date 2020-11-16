@@ -19,8 +19,6 @@ class InfoBidViewModel @Inject constructor(
     private val wSocket: WsBinance
 ) : ViewModel() {
 
-//    private var wSocket = WsBinance()
-
     var list: MutableList<CurrencyModel> = mutableListOf()
 
     var disposable = CompositeDisposable()
@@ -52,39 +50,40 @@ class InfoBidViewModel @Inject constructor(
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     {
-                        _isViewLoading.value=true
+                        _isViewLoading.value = true
                         val gs = gson.fromJson(it.data(), DepthStreamModel::class.java)
                         _wsStreamData.value = gs
-                        _isViewLoading.value=false
+                        _isViewLoading.value = false
                     },
                     {
+                        _onMessageError.value = true
                     }
                 )
         )
     }
 
-//    fun getOrdersBook(symbol: String) {
-//        disposable.add(
-//            apiService.getOrdersBook(symbol)
-//                .subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(
-//                    {
-//                        _isViewLoading.value = true
-//                        it.asks.map {
-//                            list.add(CurrencyModel(it[0], it[1]))
-//                        }
-//                        _orders.value = list
-//                        lastUpdatedLive.value = it.lastUpdateId
-//                        _isViewLoading.value = false
-//                    },
-//                    {
-//                        Log.d("Oshib", it.message.toString())
-//                    }
-//                )
-//        )
-//    }
-    fun wsDisconnect(){
+    fun getOrdersBook(symbol: String) {
+        disposable.add(
+            apiService.getOrdersBook(symbol)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    {
+                        _isViewLoading.value = true
+                        it.asks.map {
+                            list.add(CurrencyModel(it[0], it[1]))
+                        }
+                        _orders.value = list
+                        _isViewLoading.value = false
+                    },
+                    {
+                        Log.d("Oshib", it.message.toString())
+                    }
+                )
+        )
+    }
+
+    fun wsDisconnect() {
         wSocket.onDisconnect()
     }
 

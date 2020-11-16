@@ -8,9 +8,9 @@ import com.google.gson.GsonBuilder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import ru.vyakhirev.koshelektestwork.data.DiffModel
 import ru.vyakhirev.koshelektestwork.data.model.CurrencyModel
 import ru.vyakhirev.koshelektestwork.data.model.DepthStreamModel
+import ru.vyakhirev.koshelektestwork.data.model.DiffModel
 import ru.vyakhirev.koshelektestwork.data.remote.ApiBinance
 import ru.vyakhirev.koshelektestwork.data.remote.WsBinance
 import javax.inject.Inject
@@ -20,14 +20,7 @@ class DifferenceViewModel @Inject constructor(
     private val wSocket: WsBinance
 ) : ViewModel() {
 
-//    private var wSocket = WsBinance()
-
-    var list: MutableList<DiffModel> = mutableListOf()
-
     var disposable = CompositeDisposable()
-
-    private val _orders = MutableLiveData<MutableList<CurrencyModel>>()
-    val orders: LiveData<MutableList<CurrencyModel>> = _orders
 
     private val _isViewLoading = MutableLiveData<Boolean>()
     val isViewLoading: LiveData<Boolean> = _isViewLoading
@@ -56,6 +49,7 @@ class DifferenceViewModel @Inject constructor(
                         _isViewLoading.value = false
                     },
                     {
+                        _onMessageError.value=true
                         Log.d("kann", "Throwable=${it.message.toString()}")
                     }
                 )

@@ -7,7 +7,7 @@
     <string name="diff">DIFF</string>
     <string name="ask_price">Ask price</string>
     <string name="data_is_loading">Data is loading...</string>
-    <string name="error">Error</string>
+    <string name="error">Error loading data</string>
     <string name="difference">Difference</string>
     <string-array name="currency">
         <item>BTC/USDT</item>

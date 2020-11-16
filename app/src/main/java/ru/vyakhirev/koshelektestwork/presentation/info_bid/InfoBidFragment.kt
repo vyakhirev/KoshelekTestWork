@@ -1,15 +1,14 @@
 package ru.vyakhirev.koshelektestwork.presentation.info_bid
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.info_ask_fragment.*
 import kotlinx.android.synthetic.main.info_bid_fragment.*
 import ru.vyakhirev.koshelektestwork.R
 import ru.vyakhirev.koshelektestwork.data.Currency
@@ -75,42 +74,57 @@ class InfoBidFragment : Fragment() {
                     bidUsers_loading_PB.visibility = View.GONE
             }
         )
-    }
-    private fun setupCurrencySpinner() {
-        bidCurrencyChoserSpinner.setSelection(0)
-        bidCurrencyChoserSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(
-                parent: AdapterView<*>,
-                view: View,
-                position: Int,
-                id: Long
-            ) {
-                when (parent.getItemAtPosition(position).toString()) {
-                    Currency.btcUsdt -> {
-                        bidAmountHeaderTV.text = "Amount BTC"
-                        bidPriceHeaderTV.text = "Price USDT"
-                        viewModel.wsDisconnect()
-                        viewModel.getWsOrders(Currency.wsBtcUsdt)
-                    }
-                    Currency.bnbBtc -> {
-                        bidAmountHeaderTV.text = "Amount BNB"
-                        bidPriceHeaderTV.text = "Price BTC"
-                        viewModel.wsDisconnect()
-                        viewModel.getWsOrders(Currency.wsBnbBtc)
-                    }
-                    Currency.ethBtc -> {
-                        bidAmountHeaderTV.text = "Amount ETH"
-                        bidPriceHeaderTV.text = "Price BTC"
-                        viewModel.wsDisconnect()
-                        viewModel.getWsOrders(Currency.wsEthBtc)
-                    }
+
+        viewModel.onMessageError.observe(
+            viewLifecycleOwner,
+            {
+                if (it) {
+                    bidUsers_loading_PB.visibility = View.GONE
+                    currencyBidRV.visibility = View.GONE
+                    bidErrorImg.visibility = View.VISIBLE
+                    bidErrorTV.visibility = View.VISIBLE
                 }
             }
+        )
 
-            override fun onNothingSelected(parent: AdapterView<*>) {
-                // Another interface callback
+    }
+
+    private fun setupCurrencySpinner() {
+        bidCurrencyChoserSpinner.setSelection(0)
+        bidCurrencyChoserSpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>,
+                    view: View,
+                    position: Int,
+                    id: Long
+                ) {
+                    when (parent.getItemAtPosition(position).toString()) {
+                        Currency.btcUsdt -> {
+                            bidAmountHeaderTV.text = "Amount BTC"
+                            bidPriceHeaderTV.text = "Price USDT"
+                            viewModel.wsDisconnect()
+                            viewModel.getWsOrders(Currency.wsBtcUsdt)
+                        }
+                        Currency.bnbBtc -> {
+                            bidAmountHeaderTV.text = "Amount BNB"
+                            bidPriceHeaderTV.text = "Price BTC"
+                            viewModel.wsDisconnect()
+                            viewModel.getWsOrders(Currency.wsBnbBtc)
+                        }
+                        Currency.ethBtc -> {
+                            bidAmountHeaderTV.text = "Amount ETH"
+                            bidPriceHeaderTV.text = "Price BTC"
+                            viewModel.wsDisconnect()
+                            viewModel.getWsOrders(Currency.wsEthBtc)
+                        }
+                    }
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>) {
+                    // Another interface callback
+                }
             }
-        }
     }
 
     private fun setupRecyclerView() {

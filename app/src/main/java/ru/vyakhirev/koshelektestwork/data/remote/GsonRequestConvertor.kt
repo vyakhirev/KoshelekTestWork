@@ -7,6 +7,7 @@ import java.io.IOException
 import java.nio.charset.Charset
 
 class GsonRequestConvertor<T> internal constructor(
+
     private val gson: Gson,
     private val adapter: TypeAdapter<T>
 ) :

@@ -7,9 +7,9 @@ import ru.vyakhirev.koshelektestwork.data.model.OrderBookResponse
 
 interface ApiBinance {
 
-        @GET("/api/v3/depth")
-        fun getOrdersBook(
-            @Query("symbol") symbol:String
-        ): Single<OrderBookResponse>
+    @GET("/api/v3/depth")
+    fun getOrdersBook(
+        @Query("symbol") symbol: String
+    ): Single<OrderBookResponse>
 
-    }
+}

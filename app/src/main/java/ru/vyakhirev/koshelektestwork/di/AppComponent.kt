@@ -4,19 +4,21 @@ import dagger.Component
 import ru.vyakhirev.koshelektestwork.App
 import ru.vyakhirev.koshelektestwork.data.remote.ApiBinance
 import ru.vyakhirev.koshelektestwork.data.remote.WsBinance
-import ru.vyakhirev.koshelektestwork.di.api.ApiModule
 import ru.vyakhirev.koshelektestwork.di.WebSocket.WsBinanceModule
+import ru.vyakhirev.koshelektestwork.di.api.ApiModule
 import ru.vyakhirev.koshelektestwork.di.viewmodel.ViewModelModule
 import ru.vyakhirev.koshelektestwork.presentation.difference.DifferenceFragment
 import ru.vyakhirev.koshelektestwork.presentation.info_ask.InfoAskFragment
 import ru.vyakhirev.koshelektestwork.presentation.info_bid.InfoBidFragment
 import javax.inject.Singleton
 
-@Component(modules = [
-    ApiModule::class,
-    WsBinanceModule::class,
-    ViewModelModule::class
-])
+@Component(
+    modules = [
+        ApiModule::class,
+        WsBinanceModule::class,
+        ViewModelModule::class
+    ]
+)
 @Singleton
 interface AppComponent {
 
@@ -34,6 +36,8 @@ interface AppComponent {
     fun inject(app: App)
 
     fun inject(infoAskFragment: InfoAskFragment)
+
     fun inject(infoBidFragment: InfoBidFragment)
+
     fun inject(differenceFragment: DifferenceFragment)
 }

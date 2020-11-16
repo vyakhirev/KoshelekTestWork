@@ -9,7 +9,9 @@ import android.widget.AdapterView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.difference_fragment.*
 import kotlinx.android.synthetic.main.info_ask_fragment.*
+import kotlinx.android.synthetic.main.info_ask_fragment.diffRV
 import ru.vyakhirev.koshelektestwork.R
 import ru.vyakhirev.koshelektestwork.data.Currency
 import ru.vyakhirev.koshelektestwork.data.model.CurrencyModel
@@ -50,15 +52,12 @@ class InfoAskFragment : Fragment() {
 
         setupRecyclerView()
 
-//        viewModel.getOrdersBook("BTCUSDT")
-
-//        viewModel.getWsOrders(Currency.wsBtcUsdt)
-
         viewModel.wsStreamData.observe(
             viewLifecycleOwner,
             {
                 Log.d("dia", "wsStreamData=${it.toString()}")
                 it.asks.map {
+
                     var currencyModel: CurrencyModel
 
                     if ((it[1] != 0.0)) {
@@ -79,18 +78,25 @@ class InfoAskFragment : Fragment() {
             viewLifecycleOwner,
             {
                 if (it) {
-                    users_loading_PB.visibility=View.VISIBLE
+                    askLoading_PB.visibility=View.VISIBLE
                 }
                 else
-                    users_loading_PB.visibility=View.GONE
+                    askLoading_PB.visibility=View.GONE
             }
         )
-//        viewModel.lastUpdatedLive.observe(
-//            viewLifecycleOwner,
-//            {
-//                Log.d("dia", it.toString())
-//            }
-//        )
+
+        viewModel.onMessageError.observe(
+            viewLifecycleOwner,
+            {
+                if (it) {
+                    askLoading_PB.visibility=View.GONE
+                    diffRV.visibility=View.GONE
+                    askErrorImg.visibility=View.VISIBLE
+                    askErrorTV.visibility=View.VISIBLE
+                }
+            }
+        )
+
     }
 
     private fun setupCurrencySpinner() {
@@ -138,7 +144,7 @@ class InfoAskFragment : Fragment() {
                 mutableListOf(),
                 isAsk = true
             )
-        currencyAskBidRV.layoutManager = LinearLayoutManager(context)
-        currencyAskBidRV.adapter = adapterRv
+        diffRV.layoutManager = LinearLayoutManager(context)
+        diffRV.adapter = adapterRv
     }
 }

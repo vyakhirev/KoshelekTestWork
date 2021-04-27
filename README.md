@@ -1,5 +1,5 @@
 # KoshelekTestWork
-Скриншоты:<br>
+<h2>Скриншоты:</h2/<br>
 https://i.imgur.com/i9ZmjpD.png <br>
 https://i.imgur.com/9fMFQwS.png <br>
 Bitcoin client. 

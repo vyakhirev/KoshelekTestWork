@@ -2,7 +2,6 @@
 <h2>Скриншоты:</h2/<br>
 https://i.imgur.com/i9ZmjpD.png <br>
 https://i.imgur.com/9fMFQwS.png <br>
-<br>
   <h2>Стэк технологий:<br></h2>
 Kotlin, di фреймворк dagger2, RxJava для асинхронных задач, архитектура - MVVM,<br>
 Retrofit, GSon, RxWebsocket - работа с сетью.

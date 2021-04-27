@@ -5,7 +5,7 @@ https://i.imgur.com/9fMFQwS.png <br>
 Bitcoin client. 
 
 Стэк технологий:<br>
-Kotlin, di фреймвор dagger2, RxJava для асинхронных задач, архитектура - MVVM,<br>
+Kotlin, di фреймворк dagger2, RxJava для асинхронных задач, архитектура - MVVM,<br>
 Retrofit, GSon, RxWebsocket - работа с сетью.
 
 Тестовое задание для кандидатов на позицию Android-разработчик

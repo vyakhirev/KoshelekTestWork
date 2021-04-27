@@ -1,13 +1,13 @@
-# KoshelekTestWork
+# KoshelekTestWork.Bitcoin client. 
 <h2>Скриншоты:</h2/<br>
 https://i.imgur.com/i9ZmjpD.png <br>
 https://i.imgur.com/9fMFQwS.png <br>
-Bitcoin client. 
-
-Стэк технологий:<br>
+<br>
+  <h2>Стэк технологий:<br></h2>
 Kotlin, di фреймворк dagger2, RxJava для асинхронных задач, архитектура - MVVM,<br>
 Retrofit, GSon, RxWebsocket - работа с сетью.
-
+<br>
+  <h2>Задание:</h2>
 Тестовое задание для кандидатов на позицию Android-разработчик
 Ориентировочное время выполнения 8-10 часов.
 Разработать приложение по заданию ниже.

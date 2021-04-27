@@ -1,5 +1,6 @@
 # KoshelekTestWork
 https://i.imgur.com/i9ZmjpD.png
+https://i.imgur.com/9fMFQwS.png
 Bitcoin client. 
 Тестовое задание для кандидатов на позицию Android-разработчик
 Ориентировочное время выполнения 8-10 часов.

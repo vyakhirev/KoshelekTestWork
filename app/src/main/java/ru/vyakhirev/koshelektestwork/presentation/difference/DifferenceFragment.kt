@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.difference_fragment.*
 import ru.vyakhirev.koshelektestwork.R
 import ru.vyakhirev.koshelektestwork.data.Currency
-import ru.vyakhirev.koshelektestwork.data.model.DiffModel
+import ru.vyakhirev.koshelektestwork.model.DiffModel
 import ru.vyakhirev.koshelektestwork.di.DaggerAppComponent
 import ru.vyakhirev.koshelektestwork.presentation.difference.adapter.DifferenceAdapter
 import javax.inject.Inject

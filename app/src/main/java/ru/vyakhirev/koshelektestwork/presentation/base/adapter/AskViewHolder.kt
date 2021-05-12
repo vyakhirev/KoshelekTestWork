@@ -4,7 +4,7 @@ import android.graphics.Color
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.currency_item.view.*
-import ru.vyakhirev.koshelektestwork.data.model.CurrencyModel
+import ru.vyakhirev.koshelektestwork.model.CurrencyModel
 
 class AskViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

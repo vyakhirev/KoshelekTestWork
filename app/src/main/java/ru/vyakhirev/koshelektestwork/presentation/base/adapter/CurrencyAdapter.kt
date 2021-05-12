@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ru.vyakhirev.koshelektestwork.R
-import ru.vyakhirev.koshelektestwork.data.model.CurrencyModel
+import ru.vyakhirev.koshelektestwork.model.CurrencyModel
 
 class CurrencyAdapter(
     private val context: Context,

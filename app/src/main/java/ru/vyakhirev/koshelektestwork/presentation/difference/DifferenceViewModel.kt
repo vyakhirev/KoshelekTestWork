@@ -8,7 +8,7 @@ import com.google.gson.GsonBuilder
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import ru.vyakhirev.koshelektestwork.data.model.DepthStreamModel
+import ru.vyakhirev.koshelektestwork.model.DepthStreamModel
 import ru.vyakhirev.koshelektestwork.data.remote.ApiBinance
 import ru.vyakhirev.koshelektestwork.data.remote.WsBinance
 import javax.inject.Inject

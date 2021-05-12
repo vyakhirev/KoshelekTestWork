@@ -1,4 +1,4 @@
-package ru.vyakhirev.koshelektestwork.data.model
+package ru.vyakhirev.koshelektestwork.model
 
 data class CurrencyModel(
     var amount: Double,

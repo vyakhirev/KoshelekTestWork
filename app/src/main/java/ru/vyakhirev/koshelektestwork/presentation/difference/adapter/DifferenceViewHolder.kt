@@ -4,7 +4,7 @@ import android.graphics.Color
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.difference_item.view.*
-import ru.vyakhirev.koshelektestwork.data.model.DiffModel
+import ru.vyakhirev.koshelektestwork.model.DiffModel
 
 class DifferenceViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 

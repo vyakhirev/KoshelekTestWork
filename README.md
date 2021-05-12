@@ -1,6 +1,10 @@
 # KoshelekTestWork.Bitcoin client. 
 <h2>Скриншоты:</h2/<br>
-https://i.imgur.com/i9ZmjpD.png <br>
+  <image src="ask.png"> Ask screen
+  
+  
+  
+   <br>
 https://i.imgur.com/9fMFQwS.png <br>
   <h2>Стэк технологий:<br></h2>
 Kotlin, di фреймворк dagger2, RxJava для асинхронных задач, архитектура - MVVM,<br>
